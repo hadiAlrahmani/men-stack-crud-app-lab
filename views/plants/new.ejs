@@ -1,0 +1,28 @@
+<!-- views/plants/new.ejs -->
+
+<a href="/plants/">Back to Plants</a>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create a Plant</title>
+  </head>
+  <body>
+    <h1>Create a New Plant!</h1>
+    <form action="/plants" method="POST">
+
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" />
+    
+        <label for="description">Description:</label>
+        <textarea type="text" name="description" id="description"></textarea>
+    
+        <!-- <label for="image">Image:</label>
+        <input type="image" name="image" id="image" /> -->
+
+        <button type="submit">Add Plant</button>
+      </form>
+  </body>
+</html>
