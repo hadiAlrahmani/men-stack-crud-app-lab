@@ -1,0 +1,16 @@
+<body>
+    <!-- update the header -->
+    <a href="/plants">Back to Plants</a>
+
+    <h1>Edit <%= plant.name %></h1>
+    <form action="/plants/<%=plant._id%>?_method=PUT" method="POST"></form>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" value="<%= plant.name %>"/>
+    
+        <label for="description">Description:</label>
+        <textarea type="text" name="description" id="description" value="<%= plant.description %>" ></textarea>
+    
+        <!-- update the button text -->
+        <button type="submit">Update Plant</button>
+    </form>
+  </body>

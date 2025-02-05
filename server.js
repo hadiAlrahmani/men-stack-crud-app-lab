@@ -1,3 +1,6 @@
+const methodOverride = require("method-override"); // new
+const morgan = require("morgan"); //new
+
 const dotenv = require("dotenv"); // require package
 dotenv.config(); // Loads the environment variables from .env file
 
@@ -24,6 +27,8 @@ const Plant = require("./models/plant.js");
 //! Middleware
 // This middleware code parses incoming request bodies, extracting form data and converting it into a JavaScript object...
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method")); // new
+app.use(morgan("dev")); //new
 
 
 
@@ -40,6 +45,12 @@ app.get("/plant/new", (req, res) => {
   res.render("plants/new.ejs")
 });
 
+app.get("/plants/:plantId", async (req, res) => {
+  const foundPlant = await Plant.findById(req.params.plantId);
+  // res.send(`This route renders the show page for plant id: ${req.params.plantId}!`);
+  res.render("plants/show.ejs", { plant: foundPlant });
+});
+
 // POST /Plants
 app.post("/plants", async (req, res) => {
   console.log(req.body);
@@ -53,6 +64,32 @@ app.get("/plants", async (req, res) => {
   // console.log(allPlants); // log the plants!
   // res.send("Welcome to the index page!");
   res.render("plants/index.ejs", {plants: allPlants})
+});
+
+app.delete("/plants/:plantId", async (req, res) => {
+  // res.send("This is the delete route");
+  await Plant.findByIdAndDelete(req.params.plantId);
+  res.redirect("/plants");
+
+});
+
+// GET localhost:3000/plants/:plantId/edit
+app.get("/plants/:plantId/edit", async (req, res) => {
+  const foundPlant = await Plant.findById(req.params.plantId);
+  console.log(foundPlant);
+  // res.send(`This is the edit route for ${foundPlant.name}`);
+  res.render("plants/edit.ejs", {
+    plant: foundPlant,
+  })
+});
+
+
+app.put("/plants/:plantId", async (req, res) => {
+  // Update the plant in the database
+  await Plant.findByIdAndUpdate(req.params.plantId, req.body);
+
+  // Redirect to the plant's show page to see the updates
+  res.redirect(`/plants/${req.params.plantId}`);
 });
 
 
